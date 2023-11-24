@@ -24,6 +24,15 @@ const client = new MongoClient(uri, {
     }
 });
 
+
+function errorHandler(err, req, res, next) {
+    if (res.headersSent) {
+        return next(err)
+    }
+    res.status(500).json({ error: err })
+}
+
+
 async function run() {
 
 
@@ -36,6 +45,8 @@ async function run() {
         const usersCollection = client.db('BloodDB').collection('users')
 
 
+
+        // get admin user 
 
 
 
@@ -83,6 +94,7 @@ async function run() {
     }
 }
 run().catch(console.dir);
+
 
 
 
