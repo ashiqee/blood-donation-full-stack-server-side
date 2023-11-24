@@ -6,6 +6,12 @@ const port = process.env.PORT || 5000;
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
 
+app.use(express.json())
+app.use(cors({
+    origin: ["http://localhost:5173",
+    ],
+    credentials: true
+}))
 
 const uri = process.env.DB_SECRET;
 
@@ -23,10 +29,11 @@ async function run() {
 
     try {
         // Connect the client to the server	(optional starting in v4.7)
-        await client.connect();
+        // await client.connect();
 
         const districtsCollection = client.db('BloodDB').collection('districts')
         const upuzilaCollection = client.db('BloodDB').collection('Upazilas')
+        const usersCollection = client.db('BloodDB').collection('users')
 
 
 
@@ -41,6 +48,30 @@ async function run() {
             res.send(result)
         })
 
+        //get upuzilaa data
+
+        app.get('/upuzila/:id', async (req, res) => {
+            const id = req.params.id;
+            const qeury = { district_id: id }
+            const result = await upuzilaCollection.find(qeury).toArray()
+            res.send(result)
+        })
+
+        //users data post
+
+        app.post('/user', async (req, res) => {
+            const user = req.body
+
+            const qeury = { email: user.email }
+            const existingUser = await usersCollection.findOne(qeury)
+            if (existingUser) {
+                return res.send({ message: "User already exits", insertedId: null })
+            }
+            const result = await usersCollection.insertOne(user)
+
+            res.send(result)
+
+        })
 
 
         // Send a ping to confirm a successful connection
