@@ -1,13 +1,13 @@
-var jwt = require('jsonwebtoken');
-require('dotenv').config();
-
+var jwt = require("jsonwebtoken");
+const generateToken = require("../../../utils/generateToken");
+require("dotenv").config();
 
 const createToken = async (req, res, next) => {
-    const user = req.body;
+  const user = req.body;
 
-    const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' })
+  const token = generateToken(user);
 
-    res.send({ token })
-}
+  res.send({ token });
+};
 
-module.exports = createToken
+module.exports = createToken;
