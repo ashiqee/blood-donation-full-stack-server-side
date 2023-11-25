@@ -1,10 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 const upuzilaSchema = new Schema({
-  id: {
-    type: String,
-    require: true,
-  },
+
   district_id: {
     type: String,
     require: true,
@@ -13,8 +10,24 @@ const upuzilaSchema = new Schema({
     type: String,
     require: true,
   },
+  bn_name: {
+    type: String,
+    require: true,
+  },
+  lat: {
+    type: String,
+    require: true,
+  },
+  lon: {
+    type: String,
+    require: true,
+  },
+  url: {
+    type: String,
+    require: true,
+  },
 });
 
-const upuzila = model("upuzila", upuzilaSchema);
+const upuzilas = model("upuzila", upuzilaSchema);
 
-module.exports = upuzila;
+module.exports = upuzilas;

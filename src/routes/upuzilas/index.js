@@ -1,12 +1,14 @@
 var express = require("express");
-const upuzila = require("../../models/Upuzila");
+const upuzilas = require("../../models/Upuzila");
 
 var router = express.Router();
 
-//get districts data
+//get upuzzila data
 
-router.get("/upuzila", async (req, res) => {
-  const result = await upuzila.find();
+router.get("/upuzilas/:id", async (req, res) => {
+  const id = req.params.id;
+  const qeury = { district_id: id };
+  const result = await upuzilas.find(qeury);
   res.send(result);
 });
 

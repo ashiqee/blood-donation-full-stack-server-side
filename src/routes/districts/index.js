@@ -5,14 +5,26 @@ var router = express.Router();
 
 //get districts data
 
-router.get("/district", async (req, res) => {
-  const query = {
-    title: { $regex: filter.search, $options: "i" },
-  };
+router.get("/districts", async (req, res) => {
+
   const cursor = await districts.find();
+  res.send(cursor)
 });
 
+
 module.exports = router;
+
+
+
+
+// for insert many
+// router.get("/district", async (req, res) => {
+//   const district = await districts.insertMany()
+//   // const cursor = await districts.find();
+//   res.send(district)
+// });
+
+
 
 // (err, data) => {
 //     if (err) {

@@ -9,7 +9,7 @@ const authenticationRoutes = require("./routes/authentication/index");
 
 const districtsRoutes = require("./routes/districts/index");
 const upuzilaRoutes = require("./routes/upuzilas");
-const todoHandler = require("./routes/todoHandler/todoHandler");
+
 
 applyMiddleWare(app);
 
@@ -17,7 +17,6 @@ app.use(authenticationRoutes);
 app.use(districtsRoutes);
 app.use(upuzilaRoutes);
 
-app.use("/todo", todoHandler);
 
 app.get("/health", (req, res) => {
   res.send("Blood Donation Server is Running");

@@ -1,11 +1,8 @@
 const mongoose = require("mongoose");
 
 const districtsSchema = new mongoose.Schema({
-  id: {
-    type: String,
-    require: true,
-  },
-  division_id: {
+
+  districtId: {
     type: String,
     require: true,
   },
@@ -31,6 +28,6 @@ const districtsSchema = new mongoose.Schema({
   },
 });
 
-const districts = mongoose.model("districts", districtsSchema);
+const districts = mongoose.model("district", districtsSchema);
 
 module.exports = districts;
