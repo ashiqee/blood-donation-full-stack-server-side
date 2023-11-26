@@ -9,13 +9,14 @@ const authenticationRoutes = require("./routes/authentication/index");
 
 const districtsRoutes = require("./routes/districts/index");
 const upuzilaRoutes = require("./routes/upuzilas");
-
+const userRoutes = require("./routes/users/user")
 
 applyMiddleWare(app);
 
 app.use(authenticationRoutes);
 app.use(districtsRoutes);
 app.use(upuzilaRoutes);
+app.use(userRoutes)
 
 
 app.get("/health", (req, res) => {
