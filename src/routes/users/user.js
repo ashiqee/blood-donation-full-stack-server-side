@@ -7,17 +7,21 @@ var router = express.Router();
 
 router.post("/user", async (req, res) => {
   const user = req.body;
-  console.log(user);
 
-  const result = await users.create(user);
-  res.send(result);
 
-  //   try {
-  //     const result = await users.create(user);
-  //     res.send(result);
-  //   } catch (err) {
-  //     res.status(500).send(err.message);
-  //   }
+  const query = { email: user.email }
+  const existingUser = await users.findOne(query)
+  if (existingUser) {
+    return res.send({ message: "user already exits", insertedId: null })
+  }
+
+  try {
+    const result = await users.create(user);
+    res.send(result);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+
 });
 
 // get all user data
@@ -49,7 +53,7 @@ router.patch("/user/donorReq/:id", async (req, res) => {
       },
     }
   );
-  console.log(result);
+  // console.log(result);
   res.send(result);
 });
 //user Volunteer request

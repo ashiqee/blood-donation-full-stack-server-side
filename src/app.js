@@ -10,6 +10,7 @@ const authenticationRoutes = require("./routes/authentication/index");
 const districtsRoutes = require("./routes/districts/index");
 const upuzilaRoutes = require("./routes/upuzilas");
 const userRoutes = require("./routes/users/user")
+const donationRoutes = require('./routes/DonationReqs')
 
 applyMiddleWare(app);
 
@@ -17,6 +18,7 @@ app.use(authenticationRoutes);
 app.use(districtsRoutes);
 app.use(upuzilaRoutes);
 app.use(userRoutes)
+app.use(donationRoutes)
 
 
 app.get("/health", (req, res) => {
