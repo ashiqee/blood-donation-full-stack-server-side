@@ -21,5 +21,16 @@ router.get('/admin/donationReqs', async (req, res) => {
     res.send(result)
 })
 
+//user get donation request
+
+router.get('/donationsReqs/:email', async (req, res) => {
+
+    const result = await bloodDonation.find({ requesterEmail: req.params.email })
+    res.send(result)
+
+
+
+})
+
 
 module.exports = router
