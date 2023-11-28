@@ -1,9 +1,7 @@
-const express = require('express')
-const createToken = require('../../api/authentication/controllers/createToken')
-var router = express.Router()
+const express = require("express");
+const createToken = require("../../api/authentication/controllers/createToken");
+var router = express.Router();
 
-router.post('/jwt', createToken)
+router.post("/jwt", createToken);
 
-
-
-module.exports = router
+module.exports = router;

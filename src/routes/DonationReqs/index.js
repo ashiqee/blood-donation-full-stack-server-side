@@ -1,36 +1,61 @@
-const express = require('express');
-const bloodDonation = require('../../models/bloodDonation');
+const express = require("express");
+const bloodDonation = require("../../models/bloodDonation");
 
-var router = express.Router()
+var router = express.Router();
 
-//post donoReqs 
-router.post('/donationReqs', async (req, res) => {
-    const donationReq = req.body;
+//post donoReqs
+router.post("/donationReqs", async (req, res) => {
+  const donationReq = req.body;
 
+  const result = await bloodDonation.create(donationReq);
+  console.log(result);
+  res.send(result);
+});
 
-    const result = await bloodDonation.create(donationReq)
-    console.log(result);
-    res.send(result)
-})
+// admin get donor request
+router.get("/admin/donationReqs", async (req, res) => {
+  const result = await bloodDonation.find();
+  res.send(result);
+});
 
+//user get donation request list
 
-// admin get donor request 
-router.get('/admin/donationReqs', async (req, res) => {
+router.get("/donationsReqs/:email", async (req, res) => {
+  const result = await bloodDonation.find({ requesterEmail: req.params.email });
+  res.send(result);
+});
 
-    const result = await bloodDonation.find()
-    res.send(result)
-})
+//public get donation details table
 
-//user get donation request
+router.get("/donationDetails/:id", async (req, res) => {
+  const result = await bloodDonation.findOne({ _id: req.params.id });
 
-router.get('/donationsReqs/:email', async (req, res) => {
+  res.send(result);
+});
 
-    const result = await bloodDonation.find({ requesterEmail: req.params.email })
-    res.send(result)
+//donation pending req card for public view
 
+router.get("/donationReqPending", async (req, res) => {
+  const result = await bloodDonation.find({ donationStatus: "pending" });
+  res.send(result);
+});
 
+//donation submit by donor
 
-})
+router.patch("/donorDataInDonation/:id", async (req, res) => {
+  const donor = req.body;
+  const result = await bloodDonation.updateOne(
+    { _id: req.params.id },
+    {
+      $set: {
+        donorName: donor?.donorName,
+        donorEmail: donor?.donorEmail,
+        donationStatus: "inprogress",
+      },
+    }
+  );
 
+  res.send(result);
+});
 
-module.exports = router
+module.exports = router;

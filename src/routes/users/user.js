@@ -8,11 +8,10 @@ var router = express.Router();
 router.post("/user", async (req, res) => {
   const user = req.body;
 
-
-  const query = { email: user.email }
-  const existingUser = await users.findOne(query)
+  const query = { email: user.email };
+  const existingUser = await users.findOne(query);
   if (existingUser) {
-    return res.send({ message: "user already exits", insertedId: null })
+    return res.send({ message: "user already exits", insertedId: null });
   }
 
   try {
@@ -21,7 +20,6 @@ router.post("/user", async (req, res) => {
   } catch (err) {
     res.status(500).send(err.message);
   }
-
 });
 
 // get all user data
@@ -37,6 +35,12 @@ router.get("/users", async (req, res) => {
 
 router.get("/user/:email", async (req, res) => {
   const result = await users.findOne({ email: req.params.email });
+  res.send(result);
+});
+
+// get donor info with search
+router.get("/userDonor", async (req, res) => {
+  const result = await users.find({ role: "Donor" });
   res.send(result);
 });
 

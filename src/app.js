@@ -5,21 +5,22 @@ const app = express();
 require("dotenv").config();
 const port = process.env.PORT || 5000;
 
-const authenticationRoutes = require("./routes/authentication/index");
+const authenticationRoutes = require("./routes/authentication");
 
-const districtsRoutes = require("./routes/districts/index");
+const districtsRoutes = require("./routes/districts");
 const upuzilaRoutes = require("./routes/upuzilas");
-const userRoutes = require("./routes/users/user")
-const donationRoutes = require('./routes/DonationReqs')
+const userRoutes = require("./routes/users/user");
+const donationRoutes = require("./routes/DonationReqs");
+const blogRoutes = require("./routes/blogs");
 
 applyMiddleWare(app);
 
 app.use(authenticationRoutes);
 app.use(districtsRoutes);
 app.use(upuzilaRoutes);
-app.use(userRoutes)
-app.use(donationRoutes)
-
+app.use(userRoutes);
+app.use(donationRoutes);
+app.use(blogRoutes);
 
 app.get("/health", (req, res) => {
   res.send("Blood Donation Server is Running");
