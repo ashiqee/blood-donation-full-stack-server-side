@@ -40,7 +40,12 @@ router.get("/user/:email", async (req, res) => {
 
 // get donor info with search
 router.get("/userDonor", async (req, res) => {
-  const result = await users.find({ role: "Donor" });
+  const data = req.query;
+
+
+  const filter = Object.fromEntries(Object.entries(data).filter(([key, value]) => value !== ''))
+
+  const result = await users.find({ ...filter, role: 'Donor' }).sort({ blood: 1 }).exec();
   res.send(result);
 });
 

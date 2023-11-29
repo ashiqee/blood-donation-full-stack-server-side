@@ -15,6 +15,9 @@ const blogSchema = new mongoose.Schema({
   blogImg: {
     type: String,
   },
+  date: {
+    type: String,
+  },
   blogStatus: {
     type: String,
     enum: ["draft", "published", "unpublished"],
