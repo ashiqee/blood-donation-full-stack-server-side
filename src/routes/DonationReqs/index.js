@@ -55,7 +55,37 @@ router.patch("/donorDataInDonation/:id", async (req, res) => {
     }
   );
 
+
+  console.log(result);
   res.send(result);
 });
+
+
+//donation request update status inprogres done for in
+router.patch('/donationDone/:id', async (req, res) => {
+
+  const result = await bloodDonation.updateOne({ _id: req.params.id },
+    {
+      $set: {
+        donationStatus: "done",
+      }
+    })
+
+  console.log(result);
+  res.send(result);
+})
+//donation request update status cancel
+router.patch('/donationReqInCancel/:id', async (req, res) => {
+
+  const result = await bloodDonation.updateOne({ _id: req.params.id },
+    {
+      $set: {
+        donationStatus: "cancel",
+      }
+    })
+
+  console.log(result);
+  res.send(result);
+})
 
 module.exports = router;
