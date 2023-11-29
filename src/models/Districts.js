@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const districtsSchema = new mongoose.Schema({
-
   districtId: {
     type: String,
     require: true,

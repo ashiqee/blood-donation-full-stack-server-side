@@ -1,7 +1,6 @@
 const { Schema, model } = require("mongoose");
 
 const upuzilaSchema = new Schema({
-
   district_id: {
     type: String,
     require: true,

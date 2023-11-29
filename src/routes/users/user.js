@@ -42,10 +42,14 @@ router.get("/user/:email", async (req, res) => {
 router.get("/userDonor", async (req, res) => {
   const data = req.query;
 
+  const filter = Object.fromEntries(
+    Object.entries(data).filter(([key, value]) => value !== "")
+  );
 
-  const filter = Object.fromEntries(Object.entries(data).filter(([key, value]) => value !== ''))
-
-  const result = await users.find({ ...filter, role: 'Donor' }).sort({ blood: 1 }).exec();
+  const result = await users
+    .find({ ...filter, role: "Donor" })
+    .sort({ blood: 1 })
+    .exec();
   res.send(result);
 });
 
@@ -90,8 +94,19 @@ router.get("/user/admin/:email", async (req, res) => {
   if (user) {
     admin = user?.role === "Admin";
   }
-  console.log(admin);
+
   res.send({ admin });
+});
+
+//get volunteer
+router.get("/user/volunteer/:email", async (req, res) => {
+  const user = await users.findOne({ email: req.params.email });
+  let admin = false;
+  if (user) {
+    volunteer = user?.role === "Volunteer";
+  }
+
+  res.send({ volunteer });
 });
 
 //admin
