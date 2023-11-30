@@ -1,5 +1,7 @@
 const express = require("express");
 const bloodDonation = require("../../models/bloodDonation");
+const verifyToken = require('../../middlewares/verifyToken')
+
 
 var router = express.Router();
 
@@ -14,14 +16,16 @@ router.post("/donationReqs", async (req, res) => {
 
 // admin get donor request
 router.get("/admin/donationReqs", async (req, res) => {
-  const result = await bloodDonation.find();
+  const { page, limit } = req.query;
+  const result = await bloodDonation.find().skip((page - 1) * limit).limit(limit);
   res.send(result);
 });
 
 //user get donation request list
 
-router.get("/donationsReqs/:email", async (req, res) => {
-  const result = await bloodDonation.find({ requesterEmail: req.params.email });
+router.get("/donationsReqs/:email", verifyToken, async (req, res) => {
+  const { page, limit } = req.query;
+  const result = await bloodDonation.find({ requesterEmail: req.params.email }).skip((page - 1) * limit).limit(limit);
   res.send(result);
 });
 
@@ -74,7 +78,7 @@ router.patch("/donationDone/:id", async (req, res) => {
   res.send(result);
 });
 //donation request update status cancel
-router.patch("/donationReqInCancel/:id", async (req, res) => {
+router.patch("/donationReqInCancel/:id", verifyToken, async (req, res) => {
   const result = await bloodDonation.updateOne(
     { _id: req.params.id },
     {
@@ -84,16 +88,15 @@ router.patch("/donationReqInCancel/:id", async (req, res) => {
     }
   );
 
-  console.log(result);
+
   res.send(result);
 });
 
 // donaorReq Delete
 
-router.delete("/donorReqDelete/:id", async (req, res) => {
+router.delete("/donorReqDelete/:id", verifyToken, async (req, res) => {
   const result = await bloodDonation.deleteOne({ _id: req.params.id });
-  console.log(result);
-  console.log(result);
+  res.send(result)
 });
 
 module.exports = router;
