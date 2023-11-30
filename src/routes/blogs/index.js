@@ -26,7 +26,7 @@ router.get("/blogPublished", async (req, res) => {
 
 //update status blog data
 
-router.patch("/updateBlogStatus/:id", verifyToken, async (req, res) => {
+router.patch("/updateBlogStatus/:id", async (req, res) => {
   const result = await blog.updateOne(
     { _id: req.params.id },
     {
@@ -40,7 +40,7 @@ router.patch("/updateBlogStatus/:id", verifyToken, async (req, res) => {
 });
 
 // unpublished by admin
-router.patch("/updateBlogStatusUnpublished/:id", verifyToken, async (req, res) => {
+router.patch("/updateBlogStatusUnpublished/:id", async (req, res) => {
   const result = await blog.updateOne(
     { _id: req.params.id },
     {
@@ -55,7 +55,7 @@ router.patch("/updateBlogStatusUnpublished/:id", verifyToken, async (req, res) =
 
 //admin delete post
 
-router.delete("/blogDelete/:id", verifyToken, async (req, res) => {
+router.delete("/blogDelete/:id", async (req, res) => {
   const result = await blog.deleteOne({ _id: req.params.id });
   console.log(result);
   res.send(result);

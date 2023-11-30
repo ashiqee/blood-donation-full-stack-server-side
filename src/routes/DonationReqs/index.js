@@ -15,7 +15,7 @@ router.post("/donationReqs", async (req, res) => {
 });
 
 // admin get donor request
-router.get("/admin/donationReqs", async (req, res) => {
+router.get("/admin/donationReqs", verifyToken, async (req, res) => {
   const { page, limit } = req.query;
   const result = await bloodDonation.find().skip((page - 1) * limit).limit(limit);
   res.send(result);
@@ -28,6 +28,47 @@ router.get("/donationsReqs/:email", verifyToken, async (req, res) => {
   const result = await bloodDonation.find({ requesterEmail: req.params.email }).skip((page - 1) * limit).limit(limit);
   res.send(result);
 });
+//user get donation req for donor home page
+router.get("/donationsReqHome/:email", verifyToken, async (req, res) => {
+
+  const result = await bloodDonation.find({ requesterEmail: req.params.email }).limit(3);
+  res.send(result);
+});
+
+//user get donation singledata for update
+router.get('/donationReq/:id', async (req, res) => {
+  const result = await bloodDonation.findOne({ _id: req.params.id })
+  res.send(result)
+})
+
+//user donation req updated single data
+
+router.patch('/donationReqs/:id', async (req, res) => {
+  const updateData = req.body
+  const result = await bloodDonation.updateOne({ _id: req.params.id }, {
+    $set: {
+      requesterName: updateData.requesterName,
+      requesterEmail: updateData.requesterEmail,
+      recipientName: updateData.recipientName,
+      blood: updateData.blood,
+      districts: updateData.districts,
+      upuzlia: updateData.upuzlia,
+      hospitalInfo: updateData.hospitalInfo,
+      donorReqAddress: updateData.donorReqAddress,
+      donateDate: updateData.donateDate,
+      donateTime: updateData.donateTime,
+      reqMessage: updateData.reqMessage,
+      donationStatus: "pending",
+    },
+
+
+  })
+
+  res.send(result);
+})
+
+
+
 
 //public get donation details table
 
@@ -59,7 +100,6 @@ router.patch("/donorDataInDonation/:id", async (req, res) => {
     }
   );
 
-  console.log(result);
   res.send(result);
 });
 
@@ -78,7 +118,7 @@ router.patch("/donationDone/:id", async (req, res) => {
   res.send(result);
 });
 //donation request update status cancel
-router.patch("/donationReqInCancel/:id", verifyToken, async (req, res) => {
+router.patch("/donationReqInCancel/:id", async (req, res) => {
   const result = await bloodDonation.updateOne(
     { _id: req.params.id },
     {
@@ -94,7 +134,7 @@ router.patch("/donationReqInCancel/:id", verifyToken, async (req, res) => {
 
 // donaorReq Delete
 
-router.delete("/donorReqDelete/:id", verifyToken, async (req, res) => {
+router.delete("/donorReqDelete/:id", async (req, res) => {
   const result = await bloodDonation.deleteOne({ _id: req.params.id });
   res.send(result)
 });

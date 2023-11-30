@@ -12,7 +12,7 @@ var router = express.Router();
 
 //post user data
 
-router.post("/user", verifyToken, async (req, res) => {
+router.post("/user", async (req, res) => {
   const user = req.body;
 
   const query = { email: user.email };
@@ -30,8 +30,8 @@ router.post("/user", verifyToken, async (req, res) => {
 });
 
 // get all user data
-// todo : verifyToken 
-router.get("/users", async (req, res) => {
+
+router.get("/users", verifyToken, async (req, res) => {
 
   const { page, limit } = req.query;
 
@@ -64,7 +64,7 @@ router.get("/userDonor", async (req, res) => {
 
 //user donor request
 
-router.patch("/user/donorReq/:id", verifyToken, async (req, res) => {
+router.patch("/user/donorReq/:id", async (req, res) => {
   const userDonorReq = req.body;
   console.log(userDonorReq);
   const result = await users.updateOne(
@@ -80,7 +80,7 @@ router.patch("/user/donorReq/:id", verifyToken, async (req, res) => {
 });
 //user Volunteer request
 
-router.patch("/user/volunteerReq/:id", verifyToken, async (req, res) => {
+router.patch("/user/volunteerReq/:id", async (req, res) => {
   const userDonorReq = req.body;
   console.log(userDonorReq);
   const result = await users.updateOne(
@@ -121,7 +121,7 @@ router.get("/user/volunteer/:email", verifyToken, async (req, res) => {
 
 //admin
 // user request donor aprroval
-router.patch("/user/admin/donorReq/:id", verifyToken, async (req, res) => {
+router.patch("/user/admin/donorReq/:id", async (req, res) => {
   const result = await users.updateOne(
     { _id: req.params.id },
     {
@@ -134,7 +134,7 @@ router.patch("/user/admin/donorReq/:id", verifyToken, async (req, res) => {
   res.send(result);
 });
 // user request Volunteer aprroval
-router.patch("/user/admin/volunteerReq/:id", verifyToken, async (req, res) => {
+router.patch("/user/admin/volunteerReq/:id", async (req, res) => {
   const result = await users.updateOne(
     { _id: req.params.id },
     {
@@ -148,7 +148,7 @@ router.patch("/user/admin/volunteerReq/:id", verifyToken, async (req, res) => {
 });
 
 //patch user role update
-router.patch("/user/admin/:id", verifyToken, async (req, res) => {
+router.patch("/user/admin/:id", async (req, res) => {
   const roleData = req.body;
 
   const result = await users.updateOne(
@@ -164,7 +164,7 @@ router.patch("/user/admin/:id", verifyToken, async (req, res) => {
 });
 
 //patch user status update
-router.patch("/user/status/:id", verifyToken, async (req, res) => {
+router.patch("/user/status/:id", async (req, res) => {
   const currentStatus = req.body;
   console.log(currentStatus.status);
   const result = await users.updateOne(
@@ -180,7 +180,7 @@ router.patch("/user/status/:id", verifyToken, async (req, res) => {
 
 // user profile update
 
-router.patch("/user/updateProfile/:id", verifyToken, async (req, res) => {
+router.patch("/user/updateProfile/:id", async (req, res) => {
   const updateData = req.body;
 
   const result = await users.findByIdAndUpdate(
