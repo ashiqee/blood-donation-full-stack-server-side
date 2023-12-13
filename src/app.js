@@ -14,6 +14,8 @@ const donationRoutes = require("./routes/DonationReqs");
 const blogRoutes = require("./routes/blogs");
 const fundRoutes = require('./routes/fund')
 const statisticRoutes = require('./routes/statisticReport')
+const messageRoutes = require('./routes/message')
+
 
 applyMiddleWare(app);
 
@@ -25,6 +27,7 @@ app.use(donationRoutes);
 app.use(blogRoutes);
 app.use(fundRoutes);
 app.use(statisticRoutes)
+app.use(messageRoutes);
 
 app.get("/health", (req, res) => {
   res.send("Blood Donation Server is Running");
